@@ -1,0 +1,68 @@
+##get PowerShell Version:
+get-host | select-object version OR (get-host).version
+
+pwsh
+exit
+get-host | select-object version
+
+get-ciminstance -classname win32_logicaldisk
+get-wmiobject -class win32_logicaldisk -filter "DriveType=3"
+
+get-ciminstance -classname win32_product -filter 'name like "microsoft*"'
+
+##powershell profiles - a collection of scripts - set env variables
+  current user, current hosts
+  current user, all host
+  all users, current host
+  all users, all hosts
+#ise profiles
+  current user, current host
+  all users, corrent host
+  
+  $PsHome
+  $Home
+  
+  $profile
+  $profile | get-member -membertype noteproperty | format-list
+  
+  test-path -path $profile.currentusercurrenthost
+  
+  new-item -itemtype file -path $profile -force
+  
+Stack number
+10.50.27.14
+
+start/stop-transcript #records ere'thang you type and tells you where the file is
+          -OR-
+startt-transcript <absolute path to custom name file>
+
+
+##get descritpion of specific service
+get-ciminstance win32_service | where-object {$_.name -eq 'legoland'} | format-list Name, Descri
+ption
+
+##compare two files contents
+ compare-object (get-content new.txt) (get-content old.txt)
+ 
+ ##getting sorted line of a file
+ get-content words.txt | sort-object -descending | select-object -first 21 | select-object -
+last 1
+
+##
+find number of uniq words in file
+get-content words.txt | sort-object -unique | measure-object
+
+##find number of methods
+ get-process | get-member -membertype methods | measure-object
+ 
+ ##find case insensitive string
+  get-content words.txt | select-string -pattern "gaab" | measure-object
+  
+  ##find lines containing characters
+  get-content words.txt | select-string -pattern 'a', 'z' | measure-object
+  
+  #find lines containing range of characters
+  get-content words.txt | select-string -pattern "aa[a-g]" | measure-object
+  
+  ##checking if there is a profile loaded 
+  test-path -path $PROFILE.allusersallhosts
