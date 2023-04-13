@@ -1,0 +1,58 @@
+regedit.exe
+    GUI
+    C:\windows\regedit.exe
+
+reg.exe
+    CLI
+    C:\windows\system32\reg.exe
+        min cmds to know:
+            reg add, reg query, reg delete
+    
+some entries in the keys do not need things in them to function
+
+<keys>
+    <subkeys>
+        <entry> or <more subkeys>
+    
+##get name and sid for all users in the registry
+    get-localuser | select name, sid
+    
+get-childitem HKLM:SOFTWARE\MICROSOFT\Windows\currentversion -> read subkeys
+get-item HKLM:SOFTWARE\MICROSOFT\Windows\currentversion\run -> key values
+
+##if you see something within the run keys, that is how an advisary establishes persistence!!!
+
+run keys are read on startup, login, and powershell startup
+
+##PSDrive #only in powershell
+
+get-psdrive 
+
+new-psdrive -name fileserver -psprovider filesystem -root "\\file-server\\warrior share" 
+
+
+##alternate data streams
+#cannot be disabled
+    [filename.extension]:[alternate_stream_name]::$DATA
+
+##checking for alternate data stream
+    get-item <filename> -stream *
+
+##creating an alternate data stream
+    set-content .\coffee.txt -value "super secret data" -steam secret.info
+
+##finding value of alternate data stream
+    get-content .\coffee.txt -stream secret.info
+    
+##HKEY_CURRENT_USER is a symbolic link to HKU\<-21 or logged in user>
+
+##find manu of usb that was plugged in -usb history-
+    get-item HKLM:SYSTEM\currentcontrolset\enum\USBSTOR\
+    
+##find sus names in registry
+    get-childitem "HKLM:SOFTWARE\microsoft\windows nt\currentversion\profilelist"
+    
+##get file permissions 
+    get-acl
+    
+##hosts folder \system32\drivers\etc\hosts
