@@ -1,0 +1,53 @@
+<# 
+- Commands
+get my ip address
++    ip a
+get connected (layer 2) machines ip
++    arp
+    OR
++    ip neigh
+show network connections 
++    ss -nt
+switch to superuser
++    su
+do as superuser
++    sudo <command>
+do as other user
++    sudo -u <user> <commmand>
+show commands containing string in command or description
++    apropos <string>
+get file type
++    file <filename>
+get lines in a file 
++    wc -l
+find the path to a command
++    which
+long listing ls, inclusive (ls -la)
++    ll
+shows connected devices
++    lsblk
+read executable file
++    xxd
+check current user
++    whoami
+get current userinformation
++    id
+#>
+
+<#
+linux file system
+bin - cmd binaries
+sbin - system binaries
+boot - booting processes
+dev - device files
+media - removable media
+etc - everything configurable
+lib - contains "repositories" needed for linux operation
+mnt - umounted partitions
+root - home directory for root
+proc - contains all linex PIDs
+var - variables and default LOGS (logs and spool)
+    /spool - a roll of tasks that need to be done
+#>
+
+
