@@ -1,37 +1,42 @@
 <# 
-- Commands
+ Commands
 get my ip address
-+    ip a
+    ip a
 get connected (layer 2) machines ip
-+    arp
+    arp
     OR
-+    ip neigh
+    ip neigh
 show network connections 
-+    ss -nt
+    ss -nt
 switch to superuser
-+    su
+    su
 do as superuser
-+    sudo <command>
+    sudo <command>
 do as other user
-+    sudo -u <user> <commmand>
+    sudo -u <user> <commmand>
 show commands containing string in command or description
-+    apropos <string>
+    apropos <string>
 get file type
-+    file <filename>
+    file <filename>
 get lines in a file 
-+    wc -l
+    wc -l
 find the path to a command
-+    which
+    which
 long listing ls, inclusive (ls -la)
-+    ll
+    ll
 shows connected devices
-+    lsblk
+    lsblk
 read executable file
-+    xxd
+    xxd
 check current user
-+    whoami
+    whoami
 get current userinformation
-+    id
+    id
+view group information
+    less /etc/group
+chhange ownership of file
+    chown <newowner> <directory/file>
+        -r effect all files under directory
 #>
 
 <#
@@ -50,4 +55,27 @@ var - variables and default LOGS (logs and spool)
     /spool - a roll of tasks that need to be done
 #>
 
+decrypt a file
+    openssl enc -d -aes-128-cbc -in cipher
 
+find largest file in users directories and grab the second largest one, excluding the .vdi files
+    find /home/* -type f ! -iname '*.vdi*' -exec wc -l {} \; | sort -nr  | head -2 | tail -1
+    
+find users in a group
+    cat /etc/group | grep lodge | cut -d ':' -f 4 |awk -F, 'OFS=","{print$3,$6,$4,$1,$5,$2}'
+    
+find user with unique shell
+    cat /etc/passwd | sort -t ':' -k7 -u
+    
+finding password hash in etc shadow
+    sudo -u root cat /etc/shadow | sort -t":" -k2 -u | head -2 | tail -1 | awk -F: 'OFS" "{print $2}' | awk -F'$' 'OFS="   "{print "algorithm: "$2, "salt: "$3, "hash: "$4}'
+    
+find a file or directory in the entire file system
+    find / -type d -name "Bibliotheca" 2>/dev/null
+    
+find all files ending in .d
+    ls -l /etc/ | grep "\.d"$ | wc -l
+    
+    
+    
+    
