@@ -1,0 +1,38 @@
+SVR4 (System 5 Release 4) #Big Mike Got Killed In Russia
+  BIOS - basic input/output system executes mbr
+  MBR - master boot record executes grub
+  GRUB - Grand unified Bootloader executes kernel
+  Kernel - Kernel executes /sbin/init
+  Init - init executes runlevel programs
+  Runlevel - runlevel programs are executed from /etc/rc.d/rc*.d/
+  
+  lsblk
+  
+get Hex dump of MBR - probs gonna be a flag in here
+  sudo xxd -l 512 -g 1 /dev/vda
+  
+#create byte for byte copy
+  dd if=/dev/vda of=MBRCopy bs=512 count=1
+    #probs wont work w/out sudo
+      sudo !!
+      
+      dd if=/home/bombadil/mbroken bs=1 skip=446 count=16
+      
+ls -l /sbin/init
+terra box = systemd
+bombadel = /sbin/init
+
+list unti dependancies in tree format
+systemctl list-dependancies graphical.target
+
+show wants to individual targets
+systemctl show -p Wants graphical.target
+
+list every individual unit file
+systemctl list-unit-files
+
+cat contents of a file to the screen
+  systemctl cat graphical.target
+  
+persistence in the/etc/environment file??
+
