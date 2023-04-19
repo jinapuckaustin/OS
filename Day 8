@@ -27,5 +27,14 @@
   fork() #creates a new process by duplicating the calling process
   exec() #When a process calls exec, the kernel starts program, replacing the current process
   
-REMOVE BANNER
+!!!REMOVE BANNER!!!
   kill -9 $(ps -elf | egrep -v grep | egrep banner | awk '{print $4}')
+
+#using less with the ps -elf command to page through the long output
+  ps -elf | less
+#display top five lines of the process table
+  ps -elf | head -n5
+#Show only kthreadd processes
+  ps --ppid 2 -lf | head
+#Show all processes except kthreadd processes
+  ps --ppid 2 -Nlf | head
