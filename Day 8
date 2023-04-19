@@ -1,0 +1,31 @@
+##Linux Process Validity##
+#view running processes
+  ps
+    -elf #full format listing of all running processes on the system in long format
+      PPID 1 #parent is /usr/sbin/init
+      PPID 2 #parent is the kernel [kthreadd]
+        #all kernel processes are fork()ed from [kthreadd]
+        #all user processes are fork()ed from /usr/sbin/init
+
+#dynamic, real time running system process viewing
+  top  
+#more human readable format top
+  htop
+
+#Virtual Memory#
+
+#Privilege level
+  applications = ring 3, least privileged
+  device drivers = ring 2
+  device drivers = ring 1
+  kernel = ring 0, most privileged
+  
+#Show range of User IDs for system and human users
+  grep UID /etc/login.defs
+  
+#system calls
+  fork() #creates a new process by duplicating the calling process
+  exec() #When a process calls exec, the kernel starts program, replacing the current process
+  
+REMOVE BANNER
+  kill -9 $(ps -elf | egrep -v grep | egrep banner | awk '{print $4}')
