@@ -32,7 +32,7 @@
 
 #using less with the ps -elf command to page through the long output
   ps -elf | less
-#display top five lines of the process table
+#display top five lines of the pross-cess table
   ps -elf | head -n5
 #Show only kthreadd processes
   ps --ppid 2 -lf | head
@@ -86,3 +86,19 @@ once a minute and executes any commands specified that match the time.
     ps -elf | grep sshd
   #List contents for that PID directory.
     sudo ls -l /proc/14139
+
+
+#finding mapped files
+  ps -elf | grep cron #get pid
+  ls -l /proc/1350/fd <pid>
+  
+lsof
+sudo lsof -i :123
+  COMMAND  PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+  ntpd    1457  ntp   -16u-  IPv6  12341      0t0  UDP *:-ntp- -file discriptor socket and permission--process name-
+   
+
+persistance in the config
+  cat /etc/inittab #to check
+  
+  
