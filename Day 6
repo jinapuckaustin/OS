@@ -1,0 +1,126 @@
+##SystemInternals FG
+Procmon
+    ./procmon.exe #real time file system, registry, and process/thread activity.
+    
+Autoruns
+    ./autoruns.exe #analyze windows startup environment
+        Pink - Means no publisher information was found or the digital signature doesn’t exist or match.
+        Green - Used when comparing previous set of Autorun data to indicate an item wasn’t there last time.
+        Yellow - The startup entry is there, but the file or job it points to doesn’t exist anymore.
+        
+procexp
+    ./procexp
+    
+TCPView
+        ./TCPView.exe #shows detailed listings of all TCP and UDP endpoints on your system,
+        including the local and remote addresses and state of TCP connections.
+        
+PsExec
+    ./PsExec.exe #lets you execute processes on other systems,
+    complete with full interactivity for console applications, without having to manually install client software.
+    
+PsLoggedon
+    .\PsLoggedon.exe #It can list users that are logged on currently to a system
+    
+PsList
+    pslist #Another command line tool for gathering process information
+    
+PsInfo
+    ./PsInfo.exe #Gathers key system information from both local and remote systems.
+    
+Strings
+    strings #Analyze Windows files using Strings
+    
+Handle
+    ./Handle.exe #Analyze Windows handles process using Handle
+    
+##process validaty
+
+#Viewing Processes and .dlls
+    Powershell - Get-Process
+    CMD - tasklist
+    
+#View all Processes, sort them by PID.
+    Get-Process | Sort -Property Id | more
+    
+#View all processes, but sort by PID and only show the properties I define.
+    Get-Process | Select Name, Id, Description | Sort -Property Id | more
+    
+#View only the processes I define and sort by PID
+    Get-Process SMSS,CSRSS,LSASS | Sort -Property Id
+    
+#View modules/DLLs used by defined process and their file locations.
+    Get-Process chrome | foreach {$a} {$_.modules} | more
+    Get-Process -Name "*chrome*" | Select-Object -ExpandProperty Modules | more
+
+#View only modules/DLLs used by Chrome with "chrome" in the name and their file locations.
+    Get-Process chrome | foreach {$a} {$_.modules} | Where-Object ModuleName -like '*chrome*' | more
+    Get-Process -Name "*chrome*" | Select-Object -ExpandProperty Modules | Where-Object ModuleName -like '*chrome*' | more
+        #Pipe in a ft -wrap to see full file name/path.
+        
+Use the Get-Ciminstance Win32_Process cmdlet to veiw processes with PPID
+    1) View Process instances with Win32 process.
+        Get-Ciminstance Win32_Process
+    2) View the additional Properties with Get-Member
+        Get-CimInstance Win32_Process | Get-Member
+    3) View the processes with PID and PPID sorted by PID
+        Get-CimInstance Win32_Process | select name,ProcessId,ParentProcessId | sort processid
+    
+    View an instance of all Win32 (system) services.
+        Get-Ciminstance Win32_service | Select Name, Processid, Pathname | more
+            #Pipe in ft -wrap to see full file name/path
+            
+#command prompt
+    tasklist #view all processes
+        /v #verbose information
+        /svc #Display service information for each process without truncation
+        /m | more #Display modules/dlls associated to all processes.
+        /m /fi "IMAGENAME eq chrome.exe" #Display modules/dlls associated to a specific process.
+        /fo:{table|list|csv} #formatting options
+        /fi "IMAGENAME eq lsass.exe" #Filtering for specific string/process
+        
+#how to view services
+    In Powershell:
+        Get-Ciminstance - Microsoft Reference
+        Get-Service - Microsoft Reference
+    in command prompt
+        net start - Shows currently running services
+        sc query - Microsoft Reference
+
+#View only system services and display Name, PID, and the path they are initiated from.
+    Get-Ciminstance Win32_service | Select Name, Processid, Pathname | more
+        #Pipe in a ft -wrap to see full pathname.
+
+#View all services.
+    Get-service
+#View a defined service, showing all properties in list format.
+    get-service ALG | format-list *
+#View only currently running services.
+    Get-Service | Where-Object {$_.Status -eq "Running"}
+    
+#in command prompt
+    sc query
+#View extended information for all services.
+    sc queryex type=service
+#View extended information for all inactive services.
+    sc queryex type=service state=inactive
+#View all currently running services.
+    net start
+    
+#View all properties of the first scheduled task.
+    Get-ScheduledTask | Select * | select -First 1
+    
+#Show all Connections in the "Established" state
+    Get-NetTCPConnection -State Established
+    
+#Show netstat help and point out the following:
+    netstat /?
+#Displays all TCP/UDP connections with ports in numerical form with PID and executable associated to the connections
+    netstat -anob | more
+    
+##UAC
+Multiple color-coded consent prompts
+    Red - Application or publisher blocked by group policy
+    Blue & gold - Administrative application
+    Blue - Trusted and Authenticode signed application
+    Yellow - Unsigned or signed but not trusted application
