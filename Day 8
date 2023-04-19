@@ -38,3 +38,51 @@
   ps --ppid 2 -lf | head
 #Show all processes except kthreadd processes
   ps --ppid 2 -Nlf | head
+
+#An orphan process is a running process whose parent process has finished 
+or terminated and is adopted by sbin/init and will have a PPID of 1.
+  disown -a && exit #Close a shell/terminal and force all children to be adopted
+  
+##Daemons##
+A daemon process is an intentionally orphaned process in order to have a background process.
+  #can be used for persistance check for wierds:
+  #Malicious processes are sometimes orphaned and named to make it look like a daemon process 
+    ps --ppid 1 -lf
+      man cron #to see an example of a daemon that starts during the boot process
+
+#Check status/start/stop/restart a service on sysV
+  service <servicename> status/start/stop/restart
+  
+#Start/stop/restart a service
+  systemctl start/stop/restart <servicename.service>
+  
+#Check status of a service
+  systemctl status <servicename.service>
+OR
+  systemctl status <PID of service>
+
+##Cronjobs, a method of persistance#
+The cron daemon checks the directories 
+  /var/spool/cron, #user cronjobs 
+  /etc/cron.d
+  /etc/crontab #system cronjobs
+once a minute and executes any commands specified that match the time.
+
+  crontab -u [user] #file This command will load the crontab data from the specified fil
+  crontab -l -u [user] #This command will display/list user’s crontab contents
+  crontab -r -u [user] #This Command will remove user’s crontab contents
+  crontab -e -u [user] #This command will edit user’s crontab contents
+  
+##View File Descriptors using the LSOF command.
+  #List all open files being used by every process.
+    sudo lsof | tail -30
+  #List all open files for a specific process.
+    sudo lsof -c sshd
+    
+## Navigating Proc Directory
+  #List all the proc directories.
+    ls -l /proc/
+  #Grab the PID of a process.
+    ps -elf | grep sshd
+  #List contents for that PID directory.
+    sudo ls -l /proc/14139
