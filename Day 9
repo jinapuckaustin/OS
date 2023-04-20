@@ -192,4 +192,8 @@ S-1-5-21-186985262-1144665072-74031268-1309
     #Turn on script black logging via the Registry
         reg.exe add HKLM\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging\ /v EnableScriptBlockLogging /t REG_DWORD /d 1 /f
 
+Enter the full path of the program that was run on this computer from an abnormal location. BAM
+     Get-item HKLM:\SYSTEM\CurrentControlSet\Services\bam\UserSettings\*
 
+get creation time of a file
+    get-childitem C:\Windows\Prefetch\DARK_FORCES-8F2869FC.pf | select Name, CreationTime
