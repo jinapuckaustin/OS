@@ -1,0 +1,73 @@
+###Windows artifacts auditing and logging
+
+##Understanding a SID
+S-1-5-21-186985262-1144665072-74031268-1309
+    S—Identifies the number as a SID
+    1—Version number
+    5—Designates the SECURITY_NT_AUTHORITY SID authority.
+    21-186985262-1144665072-74031268—The domain identifier
+    1309—The object’s relative identifier
+#getting user SIDs 
+(PowerShell)
+    Get-localUser | select Name, SID #show local Users/SIDs on a system
+    Get-WmiObject Win32_useraccount | select name,sid #will show show local and domain Users/SIDs
+(command promtp)
+    wmic UserAccount get name, sid #show local only
+    
+##UserAssist
+#location - HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count\
+    they are encoded in ROT13
+
+#GUID - represents a particular file extension
+    CEBFF5CD-ACE2-4F4F-9178-9926F41749EA 
+        #A list of applications, files, links, and other objects that have been accessed
+    F4E57C4B-2036-45F0-A9AB-443BCFE33D9F 
+        #Lists the Shortcut Links used to start programs
+  
+#CEBFF5CD: Executable File Execution
+    Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\Count"
+#F4E57C4B: Shortcut File Execution
+    Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{F4E57C4B-2036-45F0-A9AB-443BCFE33D9F}\Count"
+ 
+##Windows Background Activity Moderator (BAM)
+    Provides:
+        - full path of an executable
+        - last execution date/time.
+ 
+ #Get OS Version
+ (PWSH)
+    Get-ComputerInfo | select osname,osversion,OsHardwareAbstractionLayer
+ (CMD)
+    systeminfo
+    
+#BAM entries for every user on the system
+    Get-Item HKLM:\SYSTEM\CurrentControlSet\Services\bam\state\UserSettings\
+    
+#For single User on the System
+    wmic useraccount  get caption,sid | more
+    
+##Recycle Bin
+
+##Prefetch
+
+##Jump Lists
+
+##Recent Files
+    #tracks last 150 folders opened
+    #Location
+        HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs
+        HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt
+        
+    #Query the Hex Value Stored in the Key
+        Get-Item 'Registry::\HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.*'
+
+    #With the * we can see the types of files/ information that was recently viewed.
+        Get-Item 'Registry::\HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt'
+        
+    #Converting a Single Value from Hex to Unicode
+        [System.Text.Encoding]::Unicode.GetString((gp "REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt")."0")
+        
+    #Convert all of a users values from HEX to Unicode
+        [System.Text.Encoding]::Unicode.GetString((gp "REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt")."0")
+        
+        
