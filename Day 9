@@ -197,3 +197,8 @@ Enter the full path of the program that was run on this computer from an abnorma
 
 get creation time of a file
     get-childitem C:\Windows\Prefetch\DARK_FORCES-8F2869FC.pf | select Name, CreationTime
+
+
+http://gauss.ececs.uc.edu/Courses/c6055/pdf/bro_log_vars.pdf
+
+https://cheat.sh/jq
