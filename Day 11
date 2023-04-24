@@ -72,3 +72,15 @@
     S-1-5-21-1004336348-1177238915-682003330-1000
 #Domain Portion
     21-1004336348-1177238915-682003330
+
+
+
+##memory analysis
+
+./valatility_2.6_win64_standablone.exe -f <FILENAME> --profile=<PROFILE> <PLUGIN>
+
+
+
+
+
+
