@@ -1,0 +1,71 @@
+#Get a list of AD Commands Available
+    Get-Command -Module activedirectory
+
+#Get the Default Domain Password Policy
+    get-ADDefaultDomainPasswordPolicy
+
+#Check for any Fine-Grained Password Policies
+    Get-ADFineGrainedPasswordPolicy -Filter {name -like "*"}
+
+#Get Forest details
+    Get-ADForest
+    
+#Get Domain details:
+    Get-ADDomain
+    
+#Get AD Groups
+    Get-ADGroup -Filter *
+    
+#Get a groups details
+    Get-ADGroup -Identity 'IA Analysts Team'
+    
+#Get a list of a groups members
+    Get-ADGroupMember -Identity 'IA Analysts Team' -Recursive
+    
+#Get AD users
+    Get-ADUser -Filter 'Name -like "*"'
+        #To see additional properties, not just the default set
+            Get-ADUser -Identity 'Nina.Webster' -Properties Description
+            
+#Find Disabled users
+    get-aduser -filter {Enabled -eq "FALSE"} -properties name, enabled
+#Enable that user
+    Enable-ADAccount -Identity guest
+#Change the password
+    Set-AdAccountPassword -Identity guest -NewPassword (ConvertTo-SecureString -AsPlaintext -String "PassWord12345!!" -Force)
+#Add the user to an Admin Group
+    Add-ADGroupMember -Identity "Domain Admins" -Members guest
+
+##create new user on box
+
+#Get Distinguished Name to match AD format
+    Get-ADuser -filter * | select distinguishedname, name
+
+#Create a new user
+    New-ADUser -Name "Bad.Guy" -AccountPassword (ConvertTo-SecureString -AsPlaintext -String "PassWord12345!!" -Force) -path "OU=3RD PLT,OU=CCO,OU=3RDBN,OU=WARRIORS,DC=army,DC=warriors"
+
+#Enable the user
+    Enable-ADAccount -Identity "Bad.Guy"
+    
+#Add the user to an Admin Group
+    Add-ADGroupMember -Identity "Domain Admins" -Members "Bad.Guy"
+    
+#remove user
+    Remove-ADUser -Identity "Bad.Guy"
+    
+#Remove From Group
+    Remove-ADGroupMember -Identity "Domain Admins" -Members guest
+
+#Disable Guest account
+    Disable-AdAccount -Identity Guest
+
+
+##Scenario: You are an admin and need to periodically check what accounts have 'Enterprise' and 'Domain' level access
+
+#Get All Domain Admin Accounts
+    Get-AdGroupMember -identity "Domain Admins" -Recursive | %{Get-ADUser -identity $_.DistinguishedName} | select name, Enabled
+    
+#Get ALL Enterprise Admin accounts
+    Get-AdGroupMember -identity "Enterprise Admins" -Recursive | %{Get-ADUser -identity $_.DistinguishedName} | select name, Enabled
+
+01.15, 0 51/52, 0 19
