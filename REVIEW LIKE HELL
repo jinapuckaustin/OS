@@ -1,0 +1,57 @@
+###LINUX - ssh
+    running processes =  ps -elf 
+        process info  =  systemctl status <PID>
+            OR grep <PID>  =  to see location
+
+    network connections    sudo netstat -anop | less (-anob for winders)
+        sudo netstat -ltup
+#persistance - ANYTHING ABNORMAL (high or repetitive port or pid #s, patterns, weird words)
+    scheduled tasks     cronab & cronjob
+        all directories therein
+
+    profiles
+        /etc/profile
+
+###WINDERS - freerdp
+#persistance
+    runkeys/autoruns registry
+        all full paths
+    
+    powershell or powershell ise profiles (user configurations)
+        test path to check if profile is conifgured
+            $PsHome = powershell install directory, all users, all hosts
+                test-path $PsHome\Profile.ps1 all users, all hosts
+                test-path $PsHome\Microsoft.PowerShell_Profile.ps1 current users all hostst
+                -ise
+                
+            $HOME - current users home directory
+                test-path $HOME\[My]Documents\windowspowershell\profile.ps1
+
+
+    scheduled tasks - GET SYSINTERNALS CMDS
+        autoruns
+        
+#enumeration
+    running processes
+        get-process (FIND THE WEIRD)
+            user applications should be located in program files
+            
+    network connections
+        netstat -anob or get-nettcpconnection
+        
+    artifacts like hell
+    userderstand locations 
+        userassist 
+        bam
+        prefetch
+        RECYCLING BIN
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
