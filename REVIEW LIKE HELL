@@ -16,7 +16,9 @@
 #persistance
     runkeys/autoruns registry
         all full paths
-    
+        
+        HKLM\SYSTEM\currentcontrolser\services\malicious - boot shitpath 
+        
     powershell or powershell ise profiles (user configurations)
         test path to check if profile is conifgured
             $PsHome = powershell install directory, all users, all hosts
@@ -49,9 +51,8 @@
     
     
     
+.dll of process .\procexp.exe
     
-    
-    
-    
+./tcpview   view process ports and in use ports
     
     
