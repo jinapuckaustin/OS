@@ -107,10 +107,50 @@
        !<--ANYTHING ABNORMAL-->!
 ##linux##
 
-    #boot
+    #boot - https://os.cybbh.io/public/os/latest/007_linux_boot_process/linboot_fg.html
+        #MBR
+            #Locate the hard drive and partition in Linux
+                lsblk
+            #Examining the contents of the MBR with xxd
+                sudo xxd -l 512 -g 1 /dev/vda
+            #Making a copy of the MBR with dd — Run this on Ops Station
+                dd if=/dev/vda of=MBRcopy bs=512 count=1
+        #bcdedit
+            #backing and restoring up the cbd 
+                bcdedit /export C:\boot_bk
+                bcdedit /import C:\boot_bk
+            #creating an entry 
+                bcdedit /create {ntldr} /d "Windows XP Pro SP2 - Tiger Paw"
+            #chaging an enrty
+                 bcdedit /set {<identifier>} description "Windows 7 - Lion Den" (1)
+            #specifying a partition
+                 bcdedit /set {ntldr} device partition=C:
+            #specifying the display order 
+                bcdedit /displayorder {ntldr} /addfirst
+            #delete the legacy operating system
+                bcdedit /delete {ntldr} /f
+            #add safe boot 
+                bcdedit /set {default} safeboot minimal
+            #day geet oo hey!!!
+                bcdedit /deletevalue {current} safeboot
+            #change/set timeout value
+                bcdedit /set {bootmgr} timeout 29
+            #goo won den day caw dem oo hey nuh!!!
+                bcdedit /deletevalue {bootmgr} timeout
 
-    #scheduled tasks (cronjobs/crontab)
-
+    #scheduled tasks (cronjobs/crontab) - https://os.cybbh.io/public/os/latest/010_linux_process_validity/linproc_fg.html#_6_5_cron_jobs
+        #checks /var/spool/cron, /etc/cron.d, and /etc/crontab every minute
+            #system cron jobs
+                /etc/crontab
+            #user cron jobs
+                /var/spool/cron/crontabs/
+        #open crontable for editing
+            crontab
+                crontab -u [user] file #This command will load the crontab data from the specified file
+                crontab -l -u [user] #This command will display/list user’s crontab contents
+                crontab -r -u [user] #This Command will remove user’s crontab contents
+                crontab -e -u [user] #This command will edit user’s crontab contents
+        
 ##Winders##
 
     #scheduled tasks
