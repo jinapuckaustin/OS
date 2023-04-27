@@ -1,0 +1,123 @@
+###Linux Box - ssh <username>@<IPaddr>
+#processes
+    #running processes
+        ps -elf
+    #process info
+        systemctl status <PID>
+    #location
+        grep <PID>
+
+#network
+    #view network connections
+        sudo netstat -anop | less
+        OR
+        sudo netstat -ltup
+
+###Winders Box - 
+#processes
+    #get-processes
+        get-process (find weird)
+            user applications should be in program files
+            
+#network
+    #view network connections 
+        netstat -anob
+        OR
+        get-nettcpconnection
+        
+#artifacts
+    https://github.com/jinapuckaustin/OS/blob/main/windows%20artifacts%20and%20logging
+    https://os.cybbh.io/public/os/latest/011_windows_auditing_&_logging/artifacts_fg.html#_11_powershell_artifacts
+  
+#Sysinternals
+    #get sysinternals
+        net use * http://live.sysinternals.com
+            Z:
+    #sysinternals tools - https://os.cybbh.io/public/os/latest/015_windows_sysinternals/sysint_fg.html
+        .\Procmon.exe
+            #real-time File System, Registry and Process/Thread activity.
+        .\Autoruns.exe
+            #shows applications automatically started on during system boot or login as well as the Registry and file system locations for auto-start configurations.
+        .\Procexp.exe
+            #task manager and system monitor which collects information on running processes
+        .\TCPView.exe
+            #detailed listings of all TCP and UDP endpoints on your system
+        .\PsExec.exe
+            #lets you execute processes on other systems
+        .\PsList.exe
+            #another tool for gathering process information
+        .\PsInfo.exe
+            #Gathers key system information from both local and remote systems
+        .\Handle.exe
+            #show the handles in use with a file
+            
+#locations to understand - https://os.cybbh.io/public/os/latest/011_windows_auditing_&_logging/artifacts_fg.html#_7_recent_files
+    #userassist
+        #The UserAssist registry key tracks the GUI-based programs that were ran by a particular user.
+            #location
+                HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count\*
+                    #encoded in ROT13
+        #The GUID represents a particular file extension
+            #A list of applications, files, links, and other objects that have been accessed
+                CEBFF5CD-ACE2-4F4F-9178-9926F41749EA
+            # Lists the Shortcut Links used to start programs
+                F4E57C4B-2036-45F0-A9AB-443BCFE33D9F
+        #get a users userassist artifacts
+            Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count"
+        #look at all users Userassist artifacts
+            Get-ItemProperty "Registry::Hkey_Users\*\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count"
+    
+    #bam
+        #locations (use systeminfo or get-computerinfo)
+            HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\bam\State\UserSettings
+                #On 1809 and Newer
+            HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\bam\UserSettings
+                #On 1803 and below
+        #get BAM entries for every user on the system
+            Get-Item HKLM:\SYSTEM\CurrentControlSet\Services\bam\state\UserSettings\*
+        #Single User on the System
+            #get user sid
+                wmic useraccount  get caption,sid | more
+            #show BAM artifact of user
+                Get-Itemproperty 'HKLM:\SYSTEM\CurrentControlSet\Services\bam\State\UserSettings\S-1-5-21-1584283910-3275287195-1754958050-1005'
+        
+    #prefetch - C:\Windows\Prefetch
+        Get-Childitem -Path 'C:\Windows\Prefetch' -ErrorAction Continue | select -First 8
+            #Output shows the programs that were run and when they were executed that are stored in the Prefetch location.
+    
+    #RECYCLING BIN
+        #location
+            C:\$Recycle.bin #Hidden System Folder
+                #details
+                    SID   #determines which user deleted it
+                    Timestamp   #When it was deleted
+                    $RXXXXXX   #content of deleted files
+                    $IXXXXXX   #original PATH and name
+        #Find the Contents of the Recycle Bin
+            Get-Childitem 'C:\$RECYCLE.BIN' -Recurse -Verbose -Force | select FullName
+        #Match SID to USER:
+            wmic useraccount where 'sid="S-1-5-21-1584283910-3275287195-1754958050-1005"' get name
+                #To find Recycle Bin artifacts for a specific user, match the SID, then append it to the previous command
+            Get-Content 'C:\$Recycle.Bin\S-1-5-21-1584283910-3275287195-1754958050-1005\$R8QZ1U8.txt'
+                #Reads the contents of a particular file within the Recycle BIN
+
+        
+        
+--------------Persistance--------------
+       !<--ANYTHING ABNORMAL-->!
+##linux##
+
+    #boot
+
+    #scheduled tasks (cronjobs/crontab)
+
+##Winders##
+
+    #scheduled tasks
+
+    #registry
+
+    #powershell or powershell ise profiles (user configurations)
+       
+
+    
