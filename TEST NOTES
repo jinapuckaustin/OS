@@ -13,7 +13,7 @@
         OR
         sudo netstat -ltup
 
-###Winders Box - 
+###Winders Box - xfreerdp /u:student /v:<IPaddr> +glyph-cache +clipboard +dynamic-resolution
 #processes
     #get-processes
         get-process (find weird)
