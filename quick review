@@ -1,4 +1,4 @@
-###LINUX - ssh
+###LINUX - ssh to machine
     running processes =  ps -elf 
         process info  =  systemctl status <PID>
             OR grep <PID>  =  to see location
@@ -12,7 +12,8 @@
     profiles
         /etc/profile
 
-###WINDERS - freerdp
+###WINDERS - freerdp to machine
+                
 #persistance
     runkeys/autoruns registry
         all full paths
