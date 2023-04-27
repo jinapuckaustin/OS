@@ -1,3 +1,7 @@
+CREDS: student - password
+winows 10.50.26.19
+linux 10.50.39.62
+
 ###Linux Box - ssh <username>@<IPaddr>
 #processes
     #running processes
@@ -24,10 +28,6 @@
         netstat -anob
         OR
         get-nettcpconnection
-        
-#artifacts
-    https://github.com/jinapuckaustin/OS/blob/main/windows%20artifacts%20and%20logging
-    https://os.cybbh.io/public/os/latest/011_windows_auditing_&_logging/artifacts_fg.html#_11_powershell_artifacts
   
 #Sysinternals
     #get sysinternals
@@ -52,6 +52,10 @@
             #show the handles in use with a file
             
 #locations to understand - https://os.cybbh.io/public/os/latest/011_windows_auditing_&_logging/artifacts_fg.html#_7_recent_files
+#---Artifacts---# 
+https://github.com/jinapuckaustin/OS/blob/main/windows%20artifacts%20and%20logging
+https://os.cybbh.io/public/os/latest/011_windows_auditing_&_logging/artifacts_fg.html#_11_powershell_artifacts
+
     #userassist
         #The UserAssist registry key tracks the GUI-based programs that were ran by a particular user.
             #location
