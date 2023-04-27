@@ -153,11 +153,53 @@
         
 ##Winders##
 
-    #scheduled tasks
+    #scheduled tasks - https://os.cybbh.io/public/os/latest/008_windows_process_validity/winproc_fg.html#_3_scheduled_tasks
+        get-scheduledtask
+            #View all properties of the first scheduled task    
+                Get-ScheduledTask | Select * | select -First 1
+        
 
     #registry
+        #autorun
+            #registry keys
+                HKLM\Software\Microsoft\Windows\CurrentVerstion\Run - Local Machine
+                HKLM\Software\Microsoft\Windows\CurrentVerstion\RunOnce
+                HKLM\System\CurrentControlSet\Services
+                ---and more, see fg - https://os.cybbh.io/public/os/latest/008_windows_process_validity/winproc_fg.html#_3_scheduled_tasks
 
-    #powershell or powershell ise profiles (user configurations)
-       
+    #powershell or powershell ise profiles (user configurations) - https://os.cybbh.io/public/os/latest/002_powershell/pwsh_fg.html#_3_powershell_profiles
+        #powershell
+            #All Users, All Hosts
+                $PsHome\Profile.ps1
+            #All Users, Current Host
+                $PsHome\Microsoft.PowerShell_profile.ps1
+            #Current User, All Hosts
+                $Home\[My]Documents\Profile.ps1
+            #Current User, Current Host
+                $Home\[My ]Documents\WindowsPowerShell\Profile.ps1
+        #powershell ise
+            #all users, Current Host
+                $PsHome\Microsoft.PowerShellISE_profile.ps1
+            #Current User, Current Host
+                $Home\[My]Documents\WindowsPowerShell\Microsoft.PowerShellISE_profile.ps1    
+                    #test path to check if profile is conifgured
+                        #all users, all hosts
+                            test-path $PsHome\Profile.ps1
+                        #current users, all hosts
+                            test-path $PsHome\Microsoft.PowerShell_Profile.ps1
+                        
+        #Variables
+            $PsHome     #installation directory for PowerShell
+            #Home    #current user’s home directory
+
+        
+
+
+        
+        
+        
+        
+
+
 
     
