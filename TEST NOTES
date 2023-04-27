@@ -195,3 +195,25 @@ https://os.cybbh.io/public/os/latest/011_windows_auditing_&_logging/artifacts_fg
         #Variables
             $PsHome     #installation directory for PowerShell
             #Home    #current user’s home directory
+
+WINDERS OPNOTES
+#sus port - TCP 56789
+    #starting processes - C:\Users\Student\Downloads\1nstallM4lwar3.exe
+        #malware artifact in HKLM:\SYSTEM\CurrentControlSet\Services\bam\state\UserSettings\*
+            #artifact name - S3tupMalw4re.exe
+                #malware initially run in HKLM:\Software\Microsoft\Windows\CurrentVersion\run as Malware_Config
+                    Trigger_Malw4r3 in scheduled tasks starts 1nstallM4lwar3.exe
+                        persistence in powershell profile - Establ1sh_P3rsistnce
+                        
+LINUX OPNOTES
+#sus port - 7777
+    running python w/ pid 2177
+        started by /mtp/lucky_script.sh - aut0mate_3vil
+            starting with user cronjob -  Cr0nolog1c4l
+                persists within /etc/profile - Profil3_H1jacker
+        
+        
+        
+        
+        
+        
