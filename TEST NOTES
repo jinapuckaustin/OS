@@ -38,7 +38,7 @@
             #real-time File System, Registry and Process/Thread activity.
         .\Autoruns.exe
             #shows applications automatically started on during system boot or login as well as the Registry and file system locations for auto-start configurations.
-        .\Procexp.exe
+        .\Procexp.exe (ig can find .dlls?)
             #task manager and system monitor which collects information on running processes
         .\TCPView.exe
             #detailed listings of all TCP and UDP endpoints on your system
